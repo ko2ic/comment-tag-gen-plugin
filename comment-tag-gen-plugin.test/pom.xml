@@ -10,13 +10,5 @@
   <packaging>eclipse-test-plugin</packaging>
   <name>comment-tag-gen-plugin :: test</name>
   <description>comment-tag-gen-plugin Test Plugin</description>
-  
-  <dependencies>
-    <dependency>
-        <groupId>com.googlecode.jmockit</groupId>
-        <artifactId>jmockit</artifactId>
-        <version>1.7</version>
-    </dependency>
-  </dependencies>
     
 </project>
