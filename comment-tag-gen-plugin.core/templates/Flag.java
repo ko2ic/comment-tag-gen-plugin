@@ -18,7 +18,7 @@ public enum Flag {
      * @generated
      */
     NULL(null),
-    // <items upperCase="OFF" camelCase="Off" code="0" separator="," end=";">
+    // <items upperAll="OFF" upperCamel="Off" code="0" separator="," end=";">
     
     /** 
      * Off 
