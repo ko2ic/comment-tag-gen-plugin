@@ -98,7 +98,7 @@ public enum Flag {
         return this == NULL;
     }
 
-    // <items upperCase="OFF" camelCase="Off" code="0">
+    // <items upperAll="OFF" upperCamel="Off" code="0">
     /**
      * whether Off or not.<br>
      * @generated
