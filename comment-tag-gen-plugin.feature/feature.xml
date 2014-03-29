@@ -4,23 +4,39 @@
       label="comment-tag-gen-plugin Feature"
       version="1.0.0">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description url="https://github.com/ko2ic/comment-tag-gen-plugin/wiki">
+      1.It will generate java code with your java code (comment) and spreadsheet.
+2.Generating code will be merged. (It is&apos;nt a Generation Gap Pattern)
+3.You could customize a template or even generation logic. 
+4.Default is enum generator.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright url="https://raw.githubusercontent.com/ko2ic/comment-tag-gen-plugin/master/LICENSE">
+      Eclipse Public License - v 1.0
    </copyright>
 
    <license url="http://www.example.com/license">
       [Enter License Description here.]
    </license>
 
+   <url>
+      <discovery label="bintray site" url="http://dl.bintray.com/ko2ic/comment-tag-gen-plugin/"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.jdt.ui"/>
+      <import plugin="org.eclipse.emf.codegen"/>
+      <import plugin="com.google.guava"/>
+   </requires>
+
    <plugin
          id="comment-tag-gen-plugin.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
+         download-size="106"
+         install-size="106"
+         version="1.0.0"
          unpack="false"/>
 
 </feature>
