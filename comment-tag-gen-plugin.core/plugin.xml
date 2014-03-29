@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="ko2ic.extentions.condition.id">
+        <with variable="selection">
+           <iterate ifEmpty="false">
+              <adapt type="org.eclipse.core.resources.IFile">
+                <or>
+                  <test property="org.eclipse.core.resources.extension" value="xls"></test>
+                  <test property="org.eclipse.core.resources.extension" value="xlsx"></test>
+                </or>
+              </adapt>             
+           </iterate>
+        </with>
+      </definition>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="// Tag Gen Category"
+            id="ko2ic.category.id">
+      </category>
+      <command
+            name="// Tag Gen Command"
+            categoryId="ko2ic.category.id"
+            id="ko2ic.commands.id">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="ko2ic.commands.id"
+            class="com.github.ko2ic.plugin.eclipse.taggen.core.SpreadSheetHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+     <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <command
+               commandId="ko2ic.commands.id"
+               label="Run // Tag Gen"
+               tooltip="Generate Code">
+            <visibleWhen>
+               <reference definitionId="ko2ic.extentions.condition.id" />
+            </visibleWhen>                
+         </command>        
+      </menuContribution>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.github.ko2ic.plugin.eclipse.taggen.core.ui.pages.ConfigrationPreferencePage"
+            id="ko2ic.ConfigrationPreferencePage.id"
+            name="Comment Tag Gen">
+      </page>
+   </extension>
+
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer class="com.github.ko2ic.plugin.eclipse.taggen.core.persistense.PreferenceInitializer" />
+   </extension>
+
+</plugin>

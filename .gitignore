@@ -1,4 +1,14 @@
+# Java class files
 *.class
+
+# generated files
+target/
+
+# Eclipse project files
+.classpath
+.project
+.checkstyle
+.settings/
 
 # Package Files #
 *.jar

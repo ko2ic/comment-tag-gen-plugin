@@ -1,0 +1,24 @@
+/* header */
+package test;
+
+import java.lang.StringBuilder;
+
+/**
+ * Test.<br/>
+ */
+public class Test {
+
+    /**
+     * field1.<br/>
+     * @generated
+     */
+    private StringBuilder field1 = new StringBuilder("a");
+
+    /**
+     * method1.<br/>
+     * @generated
+     */
+    public void method1(){
+    }
+    
+}

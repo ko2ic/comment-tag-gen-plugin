@@ -1,0 +1,33 @@
+package test;
+
+
+/**
+ * Test.
+ */
+public class Test {
+
+
+    /**
+     * constructor.
+     * @generated
+     */
+    private Test() {
+        System.out.println("a");    
+    }
+
+    /**
+     * method1.<br/>
+     * @generated
+     */
+    public void method1() {        
+        System.out.println("b");
+    }
+    
+    /**
+     * method2.<br/>
+     */
+    public void method2() {        
+        System.out.println("2");
+    }
+    
+}

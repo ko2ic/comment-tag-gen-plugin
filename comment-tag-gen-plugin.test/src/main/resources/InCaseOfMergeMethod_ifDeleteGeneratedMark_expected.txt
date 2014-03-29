@@ -1,0 +1,31 @@
+package test;
+
+
+/**
+ * Test.
+ */
+public class Test {
+
+
+    /**
+     * constructor.
+     */
+    private Test() {
+        System.out.println("0");    
+    }
+
+    /**
+     * method1.<br/>
+     */
+    public void method1() {        
+        System.out.println("1");
+    }
+    
+    /**
+     * method2.<br/>
+     */
+    public void method2() {        
+        System.out.println("2");
+    }
+    
+}

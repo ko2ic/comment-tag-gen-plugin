@@ -1,0 +1,21 @@
+package test;
+
+import java.lang.StringBuilder;
+
+/**
+ * Test.
+ */
+public class Test {
+
+    /**
+     * field1.<br/>
+     * @generated none
+     */
+    final StringBuilder field1 = new StringBuilder("1");
+
+    /**
+     * field2.<br/>
+     */
+    final StringBuilder field2 = new StringBuilder("2");
+    
+}

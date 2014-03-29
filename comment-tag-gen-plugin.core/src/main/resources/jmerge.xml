@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options indent="  " braceStyle="matching" redirect="Gen" block="\s*@\s*generated\s*NOT\s*\n" noImport="\s*//\s*import\s+([\w.*]*)\s*;\s*\n" xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+
+  <merge:dictionaryPattern name="generatedUnmodifiableMembers" select="Member/getComment" match="\s*@\s*(gen)erated\s*(This field/method[^\n]*)*\n" />
+
+  <merge:dictionaryPattern name="orderedMembers" select="Member/getComment" match="\s*@\s*(ordered)\s*\n" />
+
+  <merge:pull sourceGet="Member/getFlags" targetMarkup="^gen$" targetPut="Member/setFlags" />
+
+  <merge:pull sourceGet="Initializer/getBody" targetMarkup="^gen$" targetPut="Initializer/setBody" />
+
+  <merge:pull sourceGet="Type/getSuperclass" targetMarkup="^lastgen$|^gen$|^modifiable$|^model$" targetPut="Type/setSuperclass" />
+
+  <merge:pull sourceGet="Type/getSuperInterfaces" targetPut="Type/setSuperInterfaces" />
+
+  <merge:pull sourceGet="Field/getComment" targetMarkup="^gen$" targetPut="Field/setComment" />
+
+  <merge:pull sourceGet="Field/getType" targetMarkup="^gen$" targetPut="Field/setType" />
+
+  <merge:pull sourceMarkup="^gen$" sourceGet="Field/getInitializer" targetMarkup="^gen$" targetPut="Field/setInitializer" />
+
+  <merge:pull sourceGet="Method/getComment" targetMarkup="^gen$" targetPut="Method/setComment" />
+
+  <merge:pull sourceGet="Method/getBody" targetMarkup="^gen$" targetPut="Method/setBody" />
+
+  <merge:pull sourceGet="Method/getReturnType" targetMarkup="^gen$" targetPut="Method/setReturnType" />
+
+  <merge:pull sourceGet="Method/getExceptions" targetMarkup="^gen$" targetPut="Method/addException" />
+
+  <merge:pull sourceGet="EnumConstant/getArguments" targetMarkup="^gen$" targetPut="EnumConstant/setArguments" />
+  <merge:pull sourceGet="EnumConstant/getBody" targetMarkup="^gen$" targetPut="EnumConstant/setBody" />
+
+  <merge:sweep markup="^gen$" select="Member" />
+
+  <merge:sort markup="^ordered$" select="Member" />
+  <merge:sort markup="^ordered$" select="EnumConstant" />
+
+  <merge:pull sourceGet="CompilationUnit/setHeader" targetPut="CompilationUnit/getHeader" />
+
+</merge:options> 

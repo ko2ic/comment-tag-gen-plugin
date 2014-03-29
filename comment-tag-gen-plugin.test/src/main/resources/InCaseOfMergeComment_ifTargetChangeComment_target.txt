@@ -1,0 +1,26 @@
+package test;
+
+import java.lang.StringBuilder;
+
+/**
+ * Test.<br/>
+ * add.
+ */
+public class Test {
+
+    /**
+     * field1.<br/>
+     * add.
+     * @generated
+     */
+    private StringBuilder field1 = new StringBuilder("a");
+
+    /**
+     * method1.<br/>
+     * add.
+     * @generated
+     */
+    public void method1(){
+    }
+    
+}
