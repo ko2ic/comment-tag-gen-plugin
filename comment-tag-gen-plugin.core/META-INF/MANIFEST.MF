@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: comment-tag-gen-plugin :: core
 Bundle-SymbolicName: comment-tag-gen-plugin.core;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.1
 Bundle-Activator: com.github.ko2ic.plugin.eclipse.taggen.core.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -14,6 +14,7 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: .,
+ lombok-1.12.4.jar,
  poi-ooxml-3.10-beta2.jar,
  poi-3.10-beta2.jar,
  poi-ooxml-schemas-3.10-beta2.jar,
@@ -21,6 +22,5 @@ Bundle-ClassPath: .,
  stax-api-1.0.1.jar,
  dom4j-1.6.1.jar,
  xml-apis-1.0.b2.jar,
- lombok-1.12.4.jar,
  jdi.jar,
  jdimodel.jar

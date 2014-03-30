@@ -31,6 +31,7 @@ public class CodeLineTest {
             private final String line;
 
             private final Boolean expected;
+
         }
 
         @DataPoints

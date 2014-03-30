@@ -16,7 +16,6 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.ILog;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
@@ -25,8 +24,6 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.github.ko2ic.plugin.eclipse.taggen.core.Activator;
-
 /**
  * Presents Object Selected by right-click.
  * @author ko2ic
@@ -34,7 +31,7 @@ import com.github.ko2ic.plugin.eclipse.taggen.core.Activator;
 @Getter
 public final class SelectObject {
 
-    private final ILog log = Activator.getDefault().getLog();
+    // private final ILog log = Activator.getDefault().getLog();
 
     private IProject project;
 

@@ -55,5 +55,4 @@ public class TagHolder {
     public List<? extends ItemsTag> getItemsTags() {
         return Collections.unmodifiableList(itemsTags);
     }
-
 }

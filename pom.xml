@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.ko2ic</groupId>
   <artifactId>comment-tag-gen-plugin</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>pom</packaging>
   <name>comment-tag-gen-plugin :: parent</name>
   <description>comment-tag-gen-plugin parent</description>
@@ -98,17 +98,12 @@
     <dependency>
         <groupId>com.github.ko2ic</groupId>
         <artifactId>comment-tag-gen-common</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </dependency>
     <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi-ooxml</artifactId>
         <version>3.10-beta2</version>
-    </dependency>
-    <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>1.12.4</version>
     </dependency>
   </dependencies>
 </project>

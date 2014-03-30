@@ -104,5 +104,4 @@ public class JavaSelectDialog extends TitleAreaDialog {
         }
 
     }
-
 }

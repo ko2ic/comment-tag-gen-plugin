@@ -2,7 +2,7 @@
 <feature
       id="comment-tag-gen-plugin.feature"
       label="comment-tag-gen-plugin Feature"
-      version="1.0.0">
+      version="1.0.1">
 
    <description url="https://github.com/ko2ic/comment-tag-gen-plugin/wiki">
       1.It will generate java code with your java code (comment) and spreadsheet.
@@ -15,8 +15,8 @@
       Eclipse Public License - v 1.0
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="http://www.eclipse.org/legal/epl-v10.html">
+      Eclipse Public License - v 1.0
    </license>
 
    <url>
@@ -34,9 +34,9 @@
 
    <plugin
          id="comment-tag-gen-plugin.core"
-         download-size="106"
-         install-size="106"
-         version="1.0.0"
+         download-size="10749"
+         install-size="10747"
+         version="1.0.1"
          unpack="false"/>
 
 </feature>

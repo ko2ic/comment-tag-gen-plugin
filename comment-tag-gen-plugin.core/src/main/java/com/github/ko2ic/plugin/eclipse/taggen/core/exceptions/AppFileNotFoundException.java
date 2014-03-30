@@ -10,12 +10,14 @@
  *******************************************************************************/
 package com.github.ko2ic.plugin.eclipse.taggen.core.exceptions;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class AppFileNotFoundException extends AppException {
 
     private final String fileName;
+
+    public AppFileNotFoundException(String fileName) {
+        this.fileName = fileName;
+    }
 
     /**
      * {@inheritDoc}

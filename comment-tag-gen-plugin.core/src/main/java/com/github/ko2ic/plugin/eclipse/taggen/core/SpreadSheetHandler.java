@@ -15,8 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Map;
 
-import lombok.SneakyThrows;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -63,7 +61,7 @@ public class SpreadSheetHandler extends AbstractHandler {
      * {@inheritDoc}
      */
     @Override
-    @SneakyThrows
+    // @SneakyThrows
     public Object execute(final ExecutionEvent event) throws ExecutionException {
 
         IWorkbench workbench = PlatformUI.getWorkbench();

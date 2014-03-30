@@ -24,5 +24,4 @@ public class CustomCodePreference {
     private String itemsTagImplements;
 
     private String tagHandlerImplements;
-
 }

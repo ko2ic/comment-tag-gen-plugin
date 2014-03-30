@@ -13,13 +13,13 @@ package com.github.ko2ic.plugin.eclipse.taggen.core.domain.valueobject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.tag.CommentTag.TagType;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.tag.CommentTag.TagType;
+
 @AllArgsConstructor
-public  class CodeLine {
+public class CodeLine {
 
     @Getter
     private final int lineNumber;
@@ -31,7 +31,6 @@ public  class CodeLine {
     public String toString() {
         return line;
     }
-
 
     public boolean isCommentTagLine() {
         return isDeleteTagLine() || isItemsTagLine() || isRootTagLine();

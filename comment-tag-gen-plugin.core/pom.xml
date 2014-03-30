@@ -3,11 +3,56 @@
 	<parent>
 		<artifactId>comment-tag-gen-plugin</artifactId>
 		<groupId>com.github.ko2ic</groupId>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
   <artifactId>comment-tag-gen-plugin.core</artifactId>
   <packaging>eclipse-plugin</packaging>
   <name>comment-tag-gen-plugin :: core</name>
   <description>comment-tag-gen-plugin Core Plugin</description>
+  <build>
+    <plugins>  
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <overWriteIfNewer>true</overWriteIfNewer>
+              <outputDirectory>${project.basedir}</outputDirectory>
+              <markersDirectory>${project.basedir}</markersDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <executions>
+          <execution>
+          <id>clean-dependencies</id>
+          <phase>clean</phase>
+          <goals>
+            <goal>clean</goal>
+          </goals>
+          <configuration>
+            <filesets>
+              <fileset>
+                <directory>./</directory>
+                <includes>
+                  <include>**/*.jar</include>
+                </includes>
+              </fileset>
+            </filesets>
+          </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>        
+  </build>  
 </project>
