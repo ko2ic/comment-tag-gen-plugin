@@ -14,3 +14,7 @@ target/
 *.jar
 *.war
 *.ear
+
+# for this project
+comment-tag-gen-plugin.core/src/main/java/com/github/ko2ic/plugin/eclipse/taggen/common
+*.jar

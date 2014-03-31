@@ -11,7 +11,6 @@
 package com.github.ko2ic.plugin.eclipse.taggen.core.domain.valueobject;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -162,7 +161,7 @@ public class TemplateCode {
 
     public static String getDefaultTemplateCodePath() throws AppFileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        sb.append("templates").append(File.separator);
+        sb.append("templates").append("/");
         sb.append("Flag.java");
         try {
             URL templateURL = Activator.getDefault().getBundle().getEntry(sb.toString());

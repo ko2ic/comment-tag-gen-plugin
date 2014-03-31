@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>comment-tag-gen-plugin</artifactId>
 		<groupId>com.github.ko2ic</groupId>
-		<version>1.0.1</version>
+		<version>1.0.2</version>
 	</parent>
 	<artifactId>comment-tag-gen-plugin.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
