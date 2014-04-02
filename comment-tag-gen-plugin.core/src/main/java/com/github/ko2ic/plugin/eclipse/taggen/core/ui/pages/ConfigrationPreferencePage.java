@@ -10,9 +10,15 @@
  *******************************************************************************/
 package com.github.ko2ic.plugin.eclipse.taggen.core.ui.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -23,6 +29,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -30,12 +37,14 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import com.github.ko2ic.plugin.eclipse.taggen.core.Activator;
 import com.github.ko2ic.plugin.eclipse.taggen.core.domain.model.preference.CustomCodePreference;
 import com.github.ko2ic.plugin.eclipse.taggen.core.domain.model.preference.SpreadsheetPreference;
 import com.github.ko2ic.plugin.eclipse.taggen.core.exceptions.SystemException;
 import com.github.ko2ic.plugin.eclipse.taggen.core.persistense.PreferenceDao;
 import com.github.ko2ic.plugin.eclipse.taggen.core.ui.AlphameticVerifyListener;
 import com.github.ko2ic.plugin.eclipse.taggen.core.ui.NumericVerifyListener;
+import com.github.ko2ic.plugin.eclipse.taggen.core.ui.PackageNameModifyListener;
 import com.github.ko2ic.plugin.eclipse.taggen.core.ui.commponents.JavaSelectDialog;
 import com.github.ko2ic.plugin.eclipse.taggen.core.ui.commponents.OutputFolderCombo;
 import com.google.common.base.Strings;
@@ -77,9 +86,10 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
 
     private final PreferenceDao dao = new PreferenceDao();
 
-    public ConfigrationPreferencePage() {
-        setDescription("description");
+    private final List<PackageNameModifyListener> modifyListeners = new ArrayList<>();
 
+    public ConfigrationPreferencePage() {
+        // setDescription("description");
     }
 
     @Override
@@ -96,6 +106,13 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
 
     @Override
     public boolean performOk() {
+        if (packageNameHasError()) {
+            IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Package Name is incorrect.");
+            Shell shell = Display.getDefault().getActiveShell();
+            ErrorDialog.openError(shell, "Validation Error", "Correct the errors shown below.", status);
+            return false;
+        }
+
         dao.storeOutputFolder(outputFolderCombo.getText());
 
         SpreadsheetPreference cellPreference = createSpreadsheetCellPreference();
@@ -207,10 +224,13 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
         new Label(packageGroup, SWT.NONE);
 
         Label basePackageLabel = new Label(packageGroup, SWT.NONE);
-        basePackageLabel.setText("Package Base:");
+        basePackageLabel.setText("Package Name Base:");
         basePackageNameText = new Text(packageGroup, SWT.SINGLE | SWT.BORDER);
         basePackageNameText.setLayoutData(colspan6);
         basePackageNameText.setText(spreadEntity.getBasePackage());
+        PackageNameModifyListener listener = new PackageNameModifyListener();
+        modifyListeners.add(listener);
+        basePackageNameText.addModifyListener(listener);
 
         setEnabledToUseSheet(spreadEntity.isPackageUseSheet());
 
@@ -225,6 +245,9 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
     protected Text createCustomJavaSelectComponent(Group group, String labelText, String textValue) {
         Text text = createTextFieldComponent(group, labelText, textValue);
         createCustomJavaSelectButton(group, text);
+        PackageNameModifyListener listener = new PackageNameModifyListener();
+        modifyListeners.add(listener);
+        text.addModifyListener(listener);
         return text;
     }
 
@@ -266,7 +289,8 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
         createJavaSelectButton(comp, new SelectionListener() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                JavaSelectDialog dialog = new JavaSelectDialog(new Shell(), "Please select a custom class.");
+                Shell shell = Display.getDefault().getActiveShell();
+                JavaSelectDialog dialog = new JavaSelectDialog(shell, "Please select a custom class.");
                 dialog.open();
                 ICompilationUnit unit = dialog.getCompilationUnit();
                 String javaFileName = unit.getElementName();
@@ -339,5 +363,14 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
             entity.setStartRepeatRow(Integer.valueOf(startRow));
         }
         return entity;
+    }
+
+    private boolean packageNameHasError() {
+        for (PackageNameModifyListener listener : modifyListeners) {
+            if (listener.isVisible()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
