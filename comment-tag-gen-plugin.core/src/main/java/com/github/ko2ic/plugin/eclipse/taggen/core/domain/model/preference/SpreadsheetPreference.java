@@ -17,6 +17,8 @@ public class SpreadsheetPreference {
 
     private boolean packageUseSheet;
 
+    private String basePackage;
+
     private String packageColumnCell;
 
     private String packageRowCell;

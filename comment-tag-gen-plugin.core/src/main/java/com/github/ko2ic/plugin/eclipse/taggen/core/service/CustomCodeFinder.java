@@ -38,7 +38,7 @@ public class CustomCodeFinder {
     public CustomCodeFinder() {
         PreferenceDao dao = new PreferenceDao();
         this.codePreference = dao.findCustomCodePreference();
-        this.spreadPreference = dao.findSpreadsheetCellPreference();
+        this.spreadPreference = dao.findSpreadsheetPreference();
     }
 
     public String findTemplateFilePath() throws AppFileNotFoundException {
@@ -50,10 +50,11 @@ public class CustomCodeFinder {
     }
 
     public GeneratingCodeSeedBase findCodeSeed() throws AppNotImplementsException {
+        String basePackage = spreadPreference.getBasePackage();
         boolean whetherPackageNameUsesSheet = spreadPreference.isPackageUseSheet();
         String fullyQualifiedName = codePreference.getCodeSeedImplements();
         if (Strings.isNullOrEmpty(fullyQualifiedName)) {
-            return new EnumCodeSeed(whetherPackageNameUsesSheet);
+            return new EnumCodeSeed(basePackage, whetherPackageNameUsesSheet);
         }
         try {
             Class<?> clazz = loader.loadClass(fullyQualifiedName);

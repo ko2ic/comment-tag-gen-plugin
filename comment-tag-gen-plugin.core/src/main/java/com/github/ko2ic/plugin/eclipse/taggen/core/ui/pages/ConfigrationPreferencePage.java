@@ -55,6 +55,8 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
 
     private Button packageUseSheetCheck;
 
+    private Text basePackageNameText;
+
     private Text packageCellColumnText;
 
     private Text packageCellRowText;
@@ -154,7 +156,7 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
         itemsTagText = createCustomJavaSelectComponent(customGroup, "ItemsTag:", customEntity.getItemsTagImplements());
         tagHandlerText = createCustomJavaSelectComponent(customGroup, "TagHandler:", customEntity.getTagHandlerImplements());
 
-        SpreadsheetPreference spreadEntity = dao.findSpreadsheetCellPreference();
+        SpreadsheetPreference spreadEntity = dao.findSpreadsheetPreference();
 
         GridLayout layout6 = new GridLayout(6, false);
 
@@ -179,9 +181,9 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
 
         Group packageGroup = new Group(spreadGroup, SWT.NONE);
         packageGroup.setText("Package Name");
-        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-        gridData.horizontalSpan = 6;
-        packageGroup.setLayoutData(gridData);
+        GridData colspan6 = new GridData(GridData.FILL_HORIZONTAL);
+        colspan6.horizontalSpan = 6;
+        packageGroup.setLayoutData(colspan6);
         packageGroup.setLayout(layout6);
 
         packageUseSheetCheck = new Button(packageGroup, SWT.CHECK);
@@ -202,6 +204,13 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
         packageCellColumnText = createTextFieldComponent(packageGroup, "Column:", spreadEntity.getPackageColumnCell());
         packageCellRowText = createTextFieldComponent(packageGroup, "Row:", spreadEntity.getPackageRowCell());
         packageCellRowText.addVerifyListener(new NumericVerifyListener());
+        new Label(packageGroup, SWT.NONE);
+
+        Label basePackageLabel = new Label(packageGroup, SWT.NONE);
+        basePackageLabel.setText("Package Base:");
+        basePackageNameText = new Text(packageGroup, SWT.SINGLE | SWT.BORDER);
+        basePackageNameText.setLayoutData(colspan6);
+        basePackageNameText.setText(spreadEntity.getBasePackage());
 
         setEnabledToUseSheet(spreadEntity.isPackageUseSheet());
 
@@ -288,16 +297,17 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
     // tagHandlerText.setText(customEntity.getTagHandlerImplements());
     // }
 
-    private void setText(SpreadsheetPreference cellEntity) {
-        packageUseSheetCheck.setSelection(cellEntity.isPackageUseSheet());
-        packageCellColumnText.setText(cellEntity.getPackageColumnCell());
-        packageCellRowText.setText(cellEntity.getPackageRowCell());
-        classCommentText.setText(cellEntity.getClassCommentCell());
-        classNameText.setText(cellEntity.getClassNameCell());
-        enumCommentText.setText(cellEntity.getEnumCommentCell());
-        enumNameText.setText(cellEntity.getEnumNameCell());
-        enumValueText.setText(cellEntity.getEnumValueCell());
-        Integer startRow = cellEntity.getStartRepeatRow();
+    private void setText(SpreadsheetPreference entity) {
+        packageUseSheetCheck.setSelection(entity.isPackageUseSheet());
+        basePackageNameText.setText(entity.getBasePackage());
+        packageCellColumnText.setText(entity.getPackageColumnCell());
+        packageCellRowText.setText(entity.getPackageRowCell());
+        classCommentText.setText(entity.getClassCommentCell());
+        classNameText.setText(entity.getClassNameCell());
+        enumCommentText.setText(entity.getEnumCommentCell());
+        enumNameText.setText(entity.getEnumNameCell());
+        enumValueText.setText(entity.getEnumValueCell());
+        Integer startRow = entity.getStartRepeatRow();
         if (startRow != null) {
             startRepeatRowText.setText(String.valueOf(startRow));
         }
@@ -321,6 +331,7 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
         entity.setEnumNameCell(enumNameText.getText());
         entity.setEnumValueCell(enumValueText.getText());
         entity.setPackageUseSheet(packageUseSheetCheck.getSelection());
+        entity.setBasePackage(basePackageNameText.getText());
         entity.setPackageColumnCell(packageCellColumnText.getText());
         entity.setPackageRowCell(packageCellRowText.getText());
         String startRow = startRepeatRowText.getText();

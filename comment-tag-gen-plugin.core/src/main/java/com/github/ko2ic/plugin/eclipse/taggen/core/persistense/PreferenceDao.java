@@ -33,6 +33,8 @@ public class PreferenceDao {
 
     private static final String SPREADSHEET_PACKAGE_USE_SHEET_KEY = "SPREADSHEET_PACKAGE_USE_SHEET_KEY";
 
+    private static final String SPREADSHEET_PACKAGE_BASE_KEY = "SPREADSHEET_PACKAGE_BASE_KEY";
+
     private static final String SPREADSHEET_PACKAGE_COLUMN_KEY = "SPREADSHEET_PACKAGE_COLUMN_KEY";
 
     private static final String SPREADSHEET_PACKAGE_ROW_KEY = "SPREADSHEET_PACKAGE_ROW_KEY";
@@ -65,7 +67,7 @@ public class PreferenceDao {
         return entity;
     }
 
-    public SpreadsheetPreference findSpreadsheetCellPreference() {
+    public SpreadsheetPreference findSpreadsheetPreference() {
         SpreadsheetPreference entity = new SpreadsheetPreference();
         entity.setClassCommentCell(store.getString(SPREADSHEET_CLASS_COMMENT_KEY) != null ? store.getString(SPREADSHEET_CLASS_COMMENT_KEY) : "");
         entity.setClassNameCell(store.getString(SPREADSHEET_CLASS_NAME_KEY) != null ? store.getString(SPREADSHEET_CLASS_NAME_KEY) : "");
@@ -73,6 +75,7 @@ public class PreferenceDao {
         entity.setEnumNameCell(store.getString(SPREADSHEET_ENUM_NAME_KEY) != null ? store.getString(SPREADSHEET_ENUM_NAME_KEY) : "");
         entity.setEnumValueCell(store.getString(SPREADSHEET_ENUM_VALUE_KEY) != null ? store.getString(SPREADSHEET_ENUM_VALUE_KEY) : "");
         entity.setPackageUseSheet(store.getBoolean(SPREADSHEET_PACKAGE_USE_SHEET_KEY));
+        entity.setBasePackage(store.getString(SPREADSHEET_PACKAGE_BASE_KEY) != null ? store.getString(SPREADSHEET_PACKAGE_BASE_KEY) : "");
         entity.setPackageColumnCell(store.getString(SPREADSHEET_PACKAGE_COLUMN_KEY) != null ? store.getString(SPREADSHEET_PACKAGE_COLUMN_KEY) : "");
         entity.setPackageRowCell(store.getString(SPREADSHEET_PACKAGE_ROW_KEY) != null ? store.getString(SPREADSHEET_PACKAGE_ROW_KEY) : "");
 
@@ -97,6 +100,7 @@ public class PreferenceDao {
 
     public void storeSpreadsheetCell(SpreadsheetPreference entity) {
         store.setValue(SPREADSHEET_PACKAGE_USE_SHEET_KEY, entity.isPackageUseSheet());
+        store.setValue(SPREADSHEET_PACKAGE_BASE_KEY, entity.getBasePackage());
         store.setValue(SPREADSHEET_PACKAGE_COLUMN_KEY, entity.getPackageColumnCell());
         store.setValue(SPREADSHEET_PACKAGE_ROW_KEY, entity.getPackageRowCell());
         store.setValue(SPREADSHEET_CLASS_COMMENT_KEY, entity.getClassCommentCell());
@@ -120,6 +124,7 @@ public class PreferenceDao {
         store.setDefault(CUSTOM_TAG_HANDLER_KEY, "");
 
         store.setDefault(SPREADSHEET_PACKAGE_USE_SHEET_KEY, false);
+        store.setDefault(SPREADSHEET_PACKAGE_BASE_KEY, "");
         store.setDefault(SPREADSHEET_PACKAGE_COLUMN_KEY, "B");
         store.setDefault(SPREADSHEET_PACKAGE_ROW_KEY, "1");
 
@@ -143,6 +148,7 @@ public class PreferenceDao {
         entity.setEnumNameCell(store.getDefaultString(SPREADSHEET_ENUM_NAME_KEY));
         entity.setEnumValueCell(store.getDefaultString(SPREADSHEET_ENUM_VALUE_KEY));
         entity.setPackageUseSheet(store.getDefaultBoolean(SPREADSHEET_PACKAGE_USE_SHEET_KEY));
+        entity.setBasePackage(store.getDefaultString(SPREADSHEET_PACKAGE_BASE_KEY));
         entity.setPackageColumnCell(store.getDefaultString(SPREADSHEET_PACKAGE_COLUMN_KEY));
         entity.setPackageRowCell(store.getDefaultString(SPREADSHEET_PACKAGE_ROW_KEY));
         String startIndex = store.getDefaultString(SPREADSHEET_START_REPEAT_ROW_KEY);
