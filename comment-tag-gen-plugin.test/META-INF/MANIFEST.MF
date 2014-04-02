@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: comment-tag-gen-plugin Test Fragment
+Bundle-Name: // Tag Gen Test Fragment
 Bundle-SymbolicName: comment-tag-gen-plugin.test
 Bundle-Version: 1.0.2
 Fragment-Host: comment-tag-gen-plugin.core;bundle-version="1.0"

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: comment-tag-gen-plugin :: core
+Bundle-Name: // Tag Gen Core
 Bundle-SymbolicName: comment-tag-gen-plugin.core;singleton:=true
 Bundle-Version: 1.0.2
 Bundle-Activator: com.github.ko2ic.plugin.eclipse.taggen.core.Activator

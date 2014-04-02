@@ -3,5 +3,5 @@
    <feature url="features/comment-tag-gen-plugin.feature_1.0.2.jar" id="comment-tag-gen-plugin.feature" version="1.0.2">
       <category name="comment-tag-gen"/>
    </feature>
-   <category-def name="comment-tag-gen" label="Comment Tag Gen"/>
+   <category-def name="comment-tag-gen" label="// Tag Gen"/>
 </site>

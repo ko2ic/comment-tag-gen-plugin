@@ -57,7 +57,7 @@
       <page
             class="com.github.ko2ic.plugin.eclipse.taggen.core.ui.pages.ConfigrationPreferencePage"
             id="ko2ic.ConfigrationPreferencePage.id"
-            name="Comment Tag Gen">
+            name="// Tag Gen">
       </page>
    </extension>
 
