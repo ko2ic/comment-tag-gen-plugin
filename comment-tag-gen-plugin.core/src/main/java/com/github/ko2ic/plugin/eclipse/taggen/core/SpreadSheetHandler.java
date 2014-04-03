@@ -47,7 +47,7 @@ import com.github.ko2ic.plugin.eclipse.taggen.core.service.JavaCodeWriter;
 import com.github.ko2ic.plugin.eclipse.taggen.core.service.SpreadSheetToBeanConverter;
 import com.github.ko2ic.plugin.eclipse.taggen.core.service.parse.TagExtracter;
 import com.github.ko2ic.plugin.eclipse.taggen.core.service.parse.TagExtracter.TagClosureCreator;
-import com.github.ko2ic.plugin.eclipse.taggen.core.ui.commponents.AsyncMessageDialog;
+import com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.AsyncMessageDialog;
 
 /**
  * Executed by right click on spreadsheet.<br/>

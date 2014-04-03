@@ -45,8 +45,8 @@ import com.github.ko2ic.plugin.eclipse.taggen.core.persistense.PreferenceDao;
 import com.github.ko2ic.plugin.eclipse.taggen.core.ui.AlphameticVerifyListener;
 import com.github.ko2ic.plugin.eclipse.taggen.core.ui.NumericVerifyListener;
 import com.github.ko2ic.plugin.eclipse.taggen.core.ui.PackageNameModifyListener;
-import com.github.ko2ic.plugin.eclipse.taggen.core.ui.commponents.JavaSelectDialog;
-import com.github.ko2ic.plugin.eclipse.taggen.core.ui.commponents.OutputFolderCombo;
+import com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.JavaSelectDialog;
+import com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.OutputFolderCombo;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 
