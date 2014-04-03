@@ -118,9 +118,11 @@ public class SpreadSheetHandler extends AbstractHandler {
                     AsyncMessageDialog.openInformation(shell, "Comment Tag Gen", "Canceled !");
                     return Status.CANCEL_STATUS;
                 } catch (Exception e) {
-                    log.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
-                    String str = e.getMessage() != null ? e.getMessage() : "";
-                    AsyncMessageDialog.openError(shell, "Comment Tag Gen", "Important Error Occured." + str);
+                    String str = e.getMessage() != null ? e.getMessage() + System.getProperty("line.separator") : "";
+
+                    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, str);
+                    AsyncMessageDialog.openError(shell, "Important Error", "UnExpected Error", status);
+
                 } finally {
                     monitor.done();
                 }

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.dialog;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
@@ -25,7 +27,15 @@ public final class AsyncMessageDialog {
                 MessageDialog.openError(shell, title, msg);
             }
         });
+    }
 
+    public static void openError(final Shell shell, final String title, final String msg, final IStatus status) {
+        shell.getDisplay().asyncExec(new Runnable() {
+            @Override
+            public void run() {
+                ErrorDialog.openError(shell, title, msg, status);
+            }
+        });
     }
 
     public static void openInformation(final Shell shell, final String title, final String msg) {
