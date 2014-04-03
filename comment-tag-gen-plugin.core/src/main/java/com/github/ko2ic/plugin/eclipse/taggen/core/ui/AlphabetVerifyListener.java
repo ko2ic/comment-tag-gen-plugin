@@ -14,7 +14,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 
-public class AlphameticVerifyListener implements VerifyListener {
+public class AlphabetVerifyListener implements VerifyListener {
 
     /**
      * {@inheritDoc}

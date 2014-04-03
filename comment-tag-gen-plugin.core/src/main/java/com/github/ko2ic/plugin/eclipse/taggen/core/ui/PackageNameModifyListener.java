@@ -53,4 +53,13 @@ public class PackageNameModifyListener implements ModifyListener {
         }
         return false;
     }
+
+    public String getErrorMessage() {
+        if (isVisible()) {
+            Text text = (Text) decorator.getControl();
+            return text.getText();
+        }
+
+        return "";
+    }
 }

@@ -8,7 +8,7 @@
  * Contributors:
  * Kouji Ishii - initial implementation
  *******************************************************************************/
-package com.github.ko2ic.plugin.eclipse.taggen.core.ui.components;
+package com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.dialog;
 
 import lombok.Getter;
 

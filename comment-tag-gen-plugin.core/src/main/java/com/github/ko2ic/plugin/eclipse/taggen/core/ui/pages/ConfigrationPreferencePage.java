@@ -15,12 +15,8 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IPackageDeclaration;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.preference.PreferencePage;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -33,60 +29,58 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.github.ko2ic.plugin.eclipse.taggen.core.Activator;
 import com.github.ko2ic.plugin.eclipse.taggen.core.domain.model.preference.CustomCodePreference;
 import com.github.ko2ic.plugin.eclipse.taggen.core.domain.model.preference.SpreadsheetPreference;
-import com.github.ko2ic.plugin.eclipse.taggen.core.exceptions.SystemException;
 import com.github.ko2ic.plugin.eclipse.taggen.core.persistense.PreferenceDao;
-import com.github.ko2ic.plugin.eclipse.taggen.core.ui.AlphameticVerifyListener;
-import com.github.ko2ic.plugin.eclipse.taggen.core.ui.NumericVerifyListener;
-import com.github.ko2ic.plugin.eclipse.taggen.core.ui.PackageNameModifyListener;
-import com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.JavaSelectDialog;
-import com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.OutputFolderCombo;
+import com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.ErrorHolderComponent;
+import com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.JavaClassPathComponent;
+import com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.JavaFilePathComponent;
+import com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.SpreadSheetColumnCellComponent;
+import com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.SpreadSheetRowCellComponent;
+import com.github.ko2ic.plugin.eclipse.taggen.core.ui.components.combo.OutputFolderCombo;
 import com.google.common.base.Strings;
-import com.google.common.base.Throwables;
 
 public class ConfigrationPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
-    private Text templateText;
+    private JavaFilePathComponent templatePathComp;
 
-    private Text codeSeedText;
+    private JavaClassPathComponent codeSeedComp;
 
-    private Text rootTagText;
+    private JavaClassPathComponent rootTagComp;
 
-    private Text itemsTagText;
+    private JavaClassPathComponent itemsTagComp;
 
-    private Text tagHandlerText;
+    private JavaClassPathComponent tagHandlerComp;
 
     private Button packageUseSheetCheck;
 
-    private Text basePackageNameText;
+    private JavaClassPathComponent basePackageNameComp;
 
-    private Text packageCellColumnText;
+    private SpreadSheetColumnCellComponent packageCellColumnComp;
 
-    private Text packageCellRowText;
+    private SpreadSheetRowCellComponent packageCellRowComp;
 
-    private Text classCommentText;
+    private SpreadSheetColumnCellComponent classCommentComp;
 
-    private Text classNameText;
+    private SpreadSheetColumnCellComponent classNameComp;
 
-    private Text enumCommentText;
+    private SpreadSheetColumnCellComponent enumCommentComp;
 
-    private Text enumNameText;
+    private SpreadSheetColumnCellComponent enumNameComp;
 
-    private Text enumValueText;
+    private SpreadSheetColumnCellComponent enumValueComp;
 
-    private Text startRepeatRowText;
+    private SpreadSheetRowCellComponent startRepeatRowComp;
 
     private OutputFolderCombo outputFolderCombo;
 
     private final PreferenceDao dao = new PreferenceDao();
 
-    private final List<PackageNameModifyListener> modifyListeners = new ArrayList<>();
+    private final List<ErrorHolderComponent> packageHasErrors = new ArrayList<>();
 
     public ConfigrationPreferencePage() {
         // setDescription("description");
@@ -100,14 +94,16 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
     protected void performDefaults() {
         outputFolderCombo.select(dao.getDefaultOutputFolder());
 
-        SpreadsheetPreference cellEntity = dao.getDefaultSpreadsheetCell();
-        setText(cellEntity);
+        SpreadsheetPreference sheetEntity = dao.getDefaultSpreadsheetCell();
+        setText(sheetEntity);
     }
 
     @Override
     public boolean performOk() {
-        if (packageNameHasError()) {
-            IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Package Name is incorrect.");
+        String error = getPackageErrorMessages();
+        if (!Strings.isNullOrEmpty(error)) {
+
+            IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Package Name shown below is incorrect." + System.getProperty("line.separator") + error);
             Shell shell = Display.getDefault().getActiveShell();
             ErrorDialog.openError(shell, "Validation Error", "Correct the errors shown below.", status);
             return false;
@@ -143,35 +139,29 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
         outputFolderCombo.setLayoutData(colspan2);
         outputFolderCombo.select(dao.findOutputFolder());
 
-        Label templateLabel = new Label(composite, SWT.NONE);
-        templateLabel.setText("Template File Path:");
-        templateText = new Text(composite, SWT.SINGLE | SWT.BORDER);
-        templateText.setText(customEntity.getTemplateFilePath());
-        templateText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        createJavaSelectButton(composite, new SelectionListener() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                JavaSelectDialog dialog = new JavaSelectDialog(new Shell(), "Please select a custom template.");
-                dialog.open();
-                ICompilationUnit unit = dialog.getCompilationUnit();
-                templateText.setText(unit.getPath().toFile().getPath());
-                dialog.close();
-            }
-
-            @Override
-            public void widgetDefaultSelected(SelectionEvent e) {
-            }
-        });
+        templatePathComp = new JavaFilePathComponent(composite, "Template File Path:");
+        templatePathComp.setText(customEntity.getTemplateFilePath());
 
         Group customGroup = new Group(parent, SWT.NONE);
         customGroup.setText("Custom implements");
         customGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         customGroup.setLayout(layout3);
 
-        codeSeedText = createCustomJavaSelectComponent(customGroup, "CodeSeed:", customEntity.getCodeSeedImplements());
-        rootTagText = createCustomJavaSelectComponent(customGroup, "RootTag:", customEntity.getRootTagImplements());
-        itemsTagText = createCustomJavaSelectComponent(customGroup, "ItemsTag:", customEntity.getItemsTagImplements());
-        tagHandlerText = createCustomJavaSelectComponent(customGroup, "TagHandler:", customEntity.getTagHandlerImplements());
+        codeSeedComp = new JavaClassPathComponent(customGroup, "CodeSeed:");
+        codeSeedComp.setText(customEntity.getCodeSeedImplements());
+        packageHasErrors.add(codeSeedComp);
+
+        rootTagComp = new JavaClassPathComponent(customGroup, "RootTag:");
+        rootTagComp.setText(customEntity.getRootTagImplements());
+        packageHasErrors.add(rootTagComp);
+
+        itemsTagComp = new JavaClassPathComponent(customGroup, "ItemsTag:");
+        itemsTagComp.setText(customEntity.getItemsTagImplements());
+        packageHasErrors.add(itemsTagComp);
+
+        tagHandlerComp = new JavaClassPathComponent(customGroup, "TagHandler:");
+        tagHandlerComp.setText(customEntity.getTagHandlerImplements());
+        packageHasErrors.add(tagHandlerComp);
 
         SpreadsheetPreference spreadEntity = dao.findSpreadsheetPreference();
 
@@ -182,19 +172,31 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
         spreadGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         spreadGroup.setLayout(layout6);
 
-        classCommentText = createTextFieldComponent(spreadGroup, "Class Comment:", spreadEntity.getClassCommentCell());
-        classCommentText.addVerifyListener(new AlphameticVerifyListener());
-        classNameText = createTextFieldComponent(spreadGroup, "Class Name:", spreadEntity.getClassNameCell());
-        classNameText.addVerifyListener(new AlphameticVerifyListener());
+        classCommentComp = new SpreadSheetColumnCellComponent(spreadGroup, "Class Comment:");
+        classCommentComp.setText(spreadEntity.getClassCommentCell());
+        classCommentComp.verify();
 
-        enumCommentText = createTextFieldComponent(spreadGroup, "Enum Comment:", spreadEntity.getEnumCommentCell());
-        enumCommentText.addVerifyListener(new AlphameticVerifyListener());
-        enumNameText = createTextFieldComponent(spreadGroup, "Enum Name:", spreadEntity.getEnumNameCell());
-        enumNameText.addVerifyListener(new AlphameticVerifyListener());
-        enumValueText = createTextFieldComponent(spreadGroup, "Enum Value;", spreadEntity.getEnumValueCell());
-        enumValueText.addVerifyListener(new AlphameticVerifyListener());
+        classNameComp = new SpreadSheetColumnCellComponent(spreadGroup, "Class Name:");
+        classNameComp.setText(spreadEntity.getClassNameCell());
+        classNameComp.verify();
 
-        startRepeatRowText = createTextFieldStartRowComponent(spreadGroup, "A row (except empty) to start repeat:", String.valueOf(spreadEntity.getStartRepeatRow()));
+        enumCommentComp = new SpreadSheetColumnCellComponent(spreadGroup, "Enum Comment:");
+        enumCommentComp.setText(spreadEntity.getEnumCommentCell());
+        enumCommentComp.verify();
+
+        enumNameComp = new SpreadSheetColumnCellComponent(spreadGroup, "Enum Name:");
+        enumNameComp.setText(spreadEntity.getEnumNameCell());
+        enumNameComp.verify();
+
+        enumValueComp = new SpreadSheetColumnCellComponent(spreadGroup, "Enum Value;");
+        enumValueComp.setText(spreadEntity.getEnumValueCell());
+        enumValueComp.verify();
+        new Label(spreadGroup, SWT.NONE);
+        new Label(spreadGroup, SWT.NONE);
+
+        startRepeatRowComp = new SpreadSheetRowCellComponent(spreadGroup, "A row (except empty) to start repeat:");
+        startRepeatRowComp.setText(String.valueOf(spreadEntity.getStartRepeatRow()));
+        startRepeatRowComp.verify();
 
         Group packageGroup = new Group(spreadGroup, SWT.NONE);
         packageGroup.setText("Package Name");
@@ -218,19 +220,18 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
             }
         });
 
-        packageCellColumnText = createTextFieldComponent(packageGroup, "Column:", spreadEntity.getPackageColumnCell());
-        packageCellRowText = createTextFieldComponent(packageGroup, "Row:", spreadEntity.getPackageRowCell());
-        packageCellRowText.addVerifyListener(new NumericVerifyListener());
+        packageCellColumnComp = new SpreadSheetColumnCellComponent(packageGroup, "Column:");
+        packageCellColumnComp.setText(spreadEntity.getPackageColumnCell());
+        packageCellColumnComp.verify();
+        packageCellRowComp = new SpreadSheetRowCellComponent(packageGroup, "Row:");
+        packageCellRowComp.setText(spreadEntity.getPackageRowCell());
+        packageCellRowComp.verify();
         new Label(packageGroup, SWT.NONE);
 
-        Label basePackageLabel = new Label(packageGroup, SWT.NONE);
-        basePackageLabel.setText("Package Name Base:");
-        basePackageNameText = new Text(packageGroup, SWT.SINGLE | SWT.BORDER);
-        basePackageNameText.setLayoutData(colspan6);
-        basePackageNameText.setText(spreadEntity.getBasePackage());
-        PackageNameModifyListener listener = new PackageNameModifyListener();
-        modifyListeners.add(listener);
-        basePackageNameText.addModifyListener(listener);
+        basePackageNameComp = new JavaClassPathComponent(packageGroup, "Package Name Base:");
+        basePackageNameComp.setLayoutData(colspan6);
+        basePackageNameComp.setText(spreadEntity.getBasePackage());
+        packageHasErrors.add(basePackageNameComp);
 
         setEnabledToUseSheet(spreadEntity.isPackageUseSheet());
 
@@ -238,79 +239,8 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
     }
 
     private void setEnabledToUseSheet(boolean selection) {
-        packageCellColumnText.setEnabled(!selection);
-        packageCellRowText.setEnabled(!selection);
-    }
-
-    protected Text createCustomJavaSelectComponent(Group group, String labelText, String textValue) {
-        Text text = createTextFieldComponent(group, labelText, textValue);
-        createCustomJavaSelectButton(group, text);
-        PackageNameModifyListener listener = new PackageNameModifyListener();
-        modifyListeners.add(listener);
-        text.addModifyListener(listener);
-        return text;
-    }
-
-    protected Text createTextFieldStartRowComponent(Group group, String labelText, String textValue) {
-        Label label = new Label(group, SWT.NONE);
-        label.setText(labelText);
-        GridData colspan3 = new GridData(GridData.VERTICAL_ALIGN_END);
-        colspan3.horizontalSpan = 3;
-        colspan3.horizontalAlignment = GridData.FILL;
-        label.setLayoutData(colspan3);
-        Text text = new Text(group, SWT.SINGLE | SWT.BORDER);
-        text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        text.setText(textValue);
-        text.addVerifyListener(new NumericVerifyListener());
-        GridData colspan2 = new GridData(GridData.VERTICAL_ALIGN_END);
-        colspan2.horizontalSpan = 2;
-        colspan2.horizontalAlignment = GridData.FILL;
-        new Label(group, SWT.NONE).setLayoutData(colspan2);
-        return text;
-    }
-
-    protected Text createTextFieldComponent(Group group, String labelText, String textValue) {
-        Label label = new Label(group, SWT.NONE);
-        label.setText(labelText);
-        Text text = new Text(group, SWT.SINGLE | SWT.BORDER);
-        text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        text.setText(textValue);
-        return text;
-    }
-
-    protected void createJavaSelectButton(Composite comp, SelectionListener listener) {
-        Button button = new Button(comp, SWT.PUSH);
-        button.setText(JFaceResources.getString("openBrowse"));
-        button.addSelectionListener(listener);
-    }
-
-    protected void createCustomJavaSelectButton(Composite comp, final Text text) {
-
-        createJavaSelectButton(comp, new SelectionListener() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                Shell shell = Display.getDefault().getActiveShell();
-                JavaSelectDialog dialog = new JavaSelectDialog(shell, "Please select a custom class.");
-                dialog.open();
-                ICompilationUnit unit = dialog.getCompilationUnit();
-                String javaFileName = unit.getElementName();
-                String javaName = javaFileName.replaceFirst(".java$", "");
-                try {
-                    IPackageDeclaration declaration = unit.getPackageDeclarations()[0];
-                    String packageName = declaration.getElementName();
-                    String fullName = packageName + "." + javaName;
-                    text.setText(fullName);
-                } catch (JavaModelException t) {
-                    throw Throwables.propagate(new SystemException(t));
-                } finally {
-                    dialog.close();
-                }
-            }
-
-            @Override
-            public void widgetDefaultSelected(SelectionEvent e) {
-            }
-        });
+        packageCellColumnComp.setEnabled(!selection);
+        packageCellRowComp.setEnabled(!selection);
     }
 
     // private void setText(CustomCodePreference customEntity) {
@@ -323,54 +253,59 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
 
     private void setText(SpreadsheetPreference entity) {
         packageUseSheetCheck.setSelection(entity.isPackageUseSheet());
-        basePackageNameText.setText(entity.getBasePackage());
-        packageCellColumnText.setText(entity.getPackageColumnCell());
-        packageCellRowText.setText(entity.getPackageRowCell());
-        classCommentText.setText(entity.getClassCommentCell());
-        classNameText.setText(entity.getClassNameCell());
-        enumCommentText.setText(entity.getEnumCommentCell());
-        enumNameText.setText(entity.getEnumNameCell());
-        enumValueText.setText(entity.getEnumValueCell());
+        basePackageNameComp.setText(entity.getBasePackage());
+        packageCellColumnComp.setText(entity.getPackageColumnCell());
+        packageCellRowComp.setText(entity.getPackageRowCell());
+        classCommentComp.setText(entity.getClassCommentCell());
+        classNameComp.setText(entity.getClassNameCell());
+        enumCommentComp.setText(entity.getEnumCommentCell());
+        enumNameComp.setText(entity.getEnumNameCell());
+        enumValueComp.setText(entity.getEnumValueCell());
         Integer startRow = entity.getStartRepeatRow();
         if (startRow != null) {
-            startRepeatRowText.setText(String.valueOf(startRow));
+            startRepeatRowComp.setText(String.valueOf(startRow));
         }
     }
 
     private CustomCodePreference createCustomCodePreference() {
         CustomCodePreference entity = new CustomCodePreference();
-        entity.setCodeSeedImplements(codeSeedText.getText());
-        entity.setItemsTagImplements(itemsTagText.getText());
-        entity.setRootTagImplements(rootTagText.getText());
-        entity.setTagHandlerImplements(tagHandlerText.getText());
-        entity.setTemplateFilePath(templateText.getText());
+        entity.setCodeSeedImplements(codeSeedComp.getText());
+        entity.setItemsTagImplements(itemsTagComp.getText());
+        entity.setRootTagImplements(rootTagComp.getText());
+        entity.setTagHandlerImplements(tagHandlerComp.getText());
+        entity.setTemplateFilePath(templatePathComp.getText());
         return entity;
     }
 
     private SpreadsheetPreference createSpreadsheetCellPreference() {
         SpreadsheetPreference entity = new SpreadsheetPreference();
-        entity.setClassCommentCell(classCommentText.getText());
-        entity.setClassNameCell(classNameText.getText());
-        entity.setEnumCommentCell(enumCommentText.getText());
-        entity.setEnumNameCell(enumNameText.getText());
-        entity.setEnumValueCell(enumValueText.getText());
+        entity.setClassCommentCell(classCommentComp.getText());
+        entity.setClassNameCell(classNameComp.getText());
+        entity.setEnumCommentCell(enumCommentComp.getText());
+        entity.setEnumNameCell(enumNameComp.getText());
+        entity.setEnumValueCell(enumValueComp.getText());
         entity.setPackageUseSheet(packageUseSheetCheck.getSelection());
-        entity.setBasePackage(basePackageNameText.getText());
-        entity.setPackageColumnCell(packageCellColumnText.getText());
-        entity.setPackageRowCell(packageCellRowText.getText());
-        String startRow = startRepeatRowText.getText();
+        entity.setBasePackage(basePackageNameComp.getText());
+        entity.setPackageColumnCell(packageCellColumnComp.getText());
+        entity.setPackageRowCell(packageCellRowComp.getText());
+        String startRow = startRepeatRowComp.getText();
         if (!Strings.isNullOrEmpty(startRow)) {
             entity.setStartRepeatRow(Integer.valueOf(startRow));
         }
         return entity;
     }
 
-    private boolean packageNameHasError() {
-        for (PackageNameModifyListener listener : modifyListeners) {
-            if (listener.isVisible()) {
-                return true;
+    private String getPackageErrorMessages() {
+        StringBuilder sb = new StringBuilder();
+        for (ErrorHolderComponent holder : packageHasErrors) {
+            if (holder.hasError()) {
+                sb.append(holder.getErrorMessage()).append(System.getProperty("line.separator"));
             }
         }
-        return false;
+        if (sb.length() != 0) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        return sb.toString();
     }
+
 }
