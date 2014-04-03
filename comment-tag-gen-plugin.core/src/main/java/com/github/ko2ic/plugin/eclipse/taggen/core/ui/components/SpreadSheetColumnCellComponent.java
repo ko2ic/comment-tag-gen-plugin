@@ -22,6 +22,8 @@ public class SpreadSheetColumnCellComponent {
 
     private final Text text;
 
+    private final AlphabetVerifyListener listener = new AlphabetVerifyListener();
+
     public SpreadSheetColumnCellComponent(Composite parent, String labelText) {
         Label label = new Label(parent, SWT.NONE);
         label.setText(labelText);
@@ -42,6 +44,10 @@ public class SpreadSheetColumnCellComponent {
     }
 
     public void verify() {
-        text.addVerifyListener(new AlphabetVerifyListener());
+        text.addVerifyListener(listener);
+    }
+
+    public void dispose() {
+        text.removeVerifyListener(listener);
     }
 }

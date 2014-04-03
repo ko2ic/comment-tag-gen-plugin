@@ -92,10 +92,17 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
 
     @Override
     protected void performDefaults() {
+
         outputFolderCombo.select(dao.getDefaultOutputFolder());
 
         SpreadsheetPreference sheetEntity = dao.getDefaultSpreadsheetCell();
         setText(sheetEntity);
+
+        CustomCodePreference customEntity = dao.getDefaultCustomCode();
+        setText(customEntity);
+
+        packageCellColumnComp.setEnabled(true);
+        packageCellRowComp.setEnabled(true);
     }
 
     @Override
@@ -243,15 +250,24 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
         packageCellRowComp.setEnabled(!selection);
     }
 
-    // private void setText(CustomCodePreference customEntity) {
-    // templateText.setText(customEntity.getTemplateFilePath());
-    // codeSeedText.setText(customEntity.getCodeSeedImplements());
-    // rootTagText.setText(customEntity.getRootTagImplements());
-    // itemsTagText.setText(customEntity.getItemsTagImplements());
-    // tagHandlerText.setText(customEntity.getTagHandlerImplements());
-    // }
+    private void setText(CustomCodePreference customEntity) {
+        templatePathComp.setText(customEntity.getTemplateFilePath());
+        codeSeedComp.setText(customEntity.getCodeSeedImplements());
+        rootTagComp.setText(customEntity.getRootTagImplements());
+        itemsTagComp.setText(customEntity.getItemsTagImplements());
+        tagHandlerComp.setText(customEntity.getTagHandlerImplements());
+    }
 
     private void setText(SpreadsheetPreference entity) {
+        packageCellColumnComp.dispose();
+        packageCellRowComp.dispose();
+        classCommentComp.dispose();
+        classNameComp.dispose();
+        enumCommentComp.dispose();
+        enumNameComp.dispose();
+        enumValueComp.dispose();
+        startRepeatRowComp.dispose();
+
         packageUseSheetCheck.setSelection(entity.isPackageUseSheet());
         basePackageNameComp.setText(entity.getBasePackage());
         packageCellColumnComp.setText(entity.getPackageColumnCell());
@@ -265,6 +281,15 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
         if (startRow != null) {
             startRepeatRowComp.setText(String.valueOf(startRow));
         }
+
+        packageCellColumnComp.verify();
+        packageCellRowComp.verify();
+        classCommentComp.verify();
+        classNameComp.verify();
+        enumCommentComp.verify();
+        enumNameComp.verify();
+        enumValueComp.verify();
+        startRepeatRowComp.verify();
     }
 
     private CustomCodePreference createCustomCodePreference() {

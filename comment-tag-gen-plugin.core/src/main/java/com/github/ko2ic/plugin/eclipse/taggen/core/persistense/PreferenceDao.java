@@ -115,7 +115,10 @@ public class PreferenceDao {
     }
 
     public void setDefault() {
-        store.setDefault(OUTPUT_FOLDER_KEY, "src/main/java");
+        String separator = System.getProperty("file.separator");
+        StringBuilder packagePath = new StringBuilder();
+        packagePath.append("src").append(separator).append("main").append(separator).append("java");
+        store.setDefault(OUTPUT_FOLDER_KEY, packagePath.toString());
 
         store.setDefault(TEMPLATE_FILE_KEY, "");
         store.setDefault(CUSTOM_CODE_SEED_KEY, "");
@@ -138,6 +141,16 @@ public class PreferenceDao {
 
     public String getDefaultOutputFolder() {
         return store.getDefaultString(OUTPUT_FOLDER_KEY);
+    }
+
+    public CustomCodePreference getDefaultCustomCode() {
+        CustomCodePreference entity = new CustomCodePreference();
+        entity.setTemplateFilePath(store.getDefaultString(TEMPLATE_FILE_KEY));
+        entity.setCodeSeedImplements(store.getDefaultString(CUSTOM_CODE_SEED_KEY));
+        entity.setRootTagImplements(store.getDefaultString(CUSTOM_ROOT_TAG_KEY));
+        entity.setItemsTagImplements(store.getDefaultString(CUSTOM_ITEMS_TAG_KEY));
+        entity.setTagHandlerImplements(store.getDefaultString(CUSTOM_TAG_HANDLER_KEY));
+        return entity;
     }
 
     public SpreadsheetPreference getDefaultSpreadsheetCell() {
