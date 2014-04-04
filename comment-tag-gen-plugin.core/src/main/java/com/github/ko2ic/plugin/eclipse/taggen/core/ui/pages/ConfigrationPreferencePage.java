@@ -235,7 +235,7 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
         packageCellRowComp.verify();
         new Label(packageGroup, SWT.NONE);
 
-        basePackageNameComp = new JavaClassPathComponent(packageGroup, "Package Name Base:");
+        basePackageNameComp = new JavaClassPathComponent(packageGroup, "Package Name Base:", false);
         basePackageNameComp.setLayoutData(colspan6);
         basePackageNameComp.setText(spreadEntity.getBasePackage());
         packageHasErrors.add(basePackageNameComp);
