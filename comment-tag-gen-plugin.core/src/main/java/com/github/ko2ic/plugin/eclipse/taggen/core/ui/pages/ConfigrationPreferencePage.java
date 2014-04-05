@@ -174,38 +174,7 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
 
         GridLayout layout6 = new GridLayout(6, false);
 
-        Group spreadGroup = new Group(parent, SWT.NONE);
-        spreadGroup.setText("Default SpreadSheet Cell. (It's a enum generator) ");
-        spreadGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        spreadGroup.setLayout(layout6);
-
-        classCommentComp = new SpreadSheetColumnCellComponent(spreadGroup, "Class Comment:");
-        classCommentComp.setText(spreadEntity.getClassCommentCell());
-        classCommentComp.verify();
-
-        classNameComp = new SpreadSheetColumnCellComponent(spreadGroup, "Class Name:");
-        classNameComp.setText(spreadEntity.getClassNameCell());
-        classNameComp.verify();
-
-        enumCommentComp = new SpreadSheetColumnCellComponent(spreadGroup, "Enum Comment:");
-        enumCommentComp.setText(spreadEntity.getEnumCommentCell());
-        enumCommentComp.verify();
-
-        enumNameComp = new SpreadSheetColumnCellComponent(spreadGroup, "Enum Name:");
-        enumNameComp.setText(spreadEntity.getEnumNameCell());
-        enumNameComp.verify();
-
-        enumValueComp = new SpreadSheetColumnCellComponent(spreadGroup, "Enum Value;");
-        enumValueComp.setText(spreadEntity.getEnumValueCell());
-        enumValueComp.verify();
-        new Label(spreadGroup, SWT.NONE);
-        new Label(spreadGroup, SWT.NONE);
-
-        startRepeatRowComp = new SpreadSheetRowCellComponent(spreadGroup, "A row (except empty) to start repeat:");
-        startRepeatRowComp.setText(String.valueOf(spreadEntity.getStartRepeatRow()));
-        startRepeatRowComp.verify();
-
-        Group packageGroup = new Group(spreadGroup, SWT.NONE);
+        Group packageGroup = new Group(parent, SWT.NONE);
         packageGroup.setText("Package Name");
         GridData colspan6 = new GridData(GridData.FILL_HORIZONTAL);
         colspan6.horizontalSpan = 6;
@@ -239,6 +208,38 @@ public class ConfigrationPreferencePage extends PreferencePage implements IWorkb
         basePackageNameComp.setLayoutData(colspan6);
         basePackageNameComp.setText(spreadEntity.getBasePackage());
         packageHasErrors.add(basePackageNameComp);
+
+        Group spreadGroup = new Group(parent, SWT.NONE);
+        spreadGroup.setText("Default SpreadSheet Cell. (It's a enum generator) ");
+        spreadGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        spreadGroup.setLayout(layout6);
+
+        classCommentComp = new SpreadSheetColumnCellComponent(spreadGroup, "Class Comment:");
+        classCommentComp.setText(spreadEntity.getClassCommentCell());
+        classCommentComp.verify();
+
+        classNameComp = new SpreadSheetColumnCellComponent(spreadGroup, "Class Name:");
+        classNameComp.setText(spreadEntity.getClassNameCell());
+        classNameComp.verify();
+
+        new Label(spreadGroup, SWT.NONE);
+        new Label(spreadGroup, SWT.NONE);
+
+        enumCommentComp = new SpreadSheetColumnCellComponent(spreadGroup, "Enum Type Comment:");
+        enumCommentComp.setText(spreadEntity.getEnumCommentCell());
+        enumCommentComp.verify();
+
+        enumNameComp = new SpreadSheetColumnCellComponent(spreadGroup, "Enum Type Value:");
+        enumNameComp.setText(spreadEntity.getEnumNameCell());
+        enumNameComp.verify();
+
+        enumValueComp = new SpreadSheetColumnCellComponent(spreadGroup, "Enum Code Value:");
+        enumValueComp.setText(spreadEntity.getEnumValueCell());
+        enumValueComp.verify();
+
+        startRepeatRowComp = new SpreadSheetRowCellComponent(spreadGroup, "A row to start repeat (except empty) :");
+        startRepeatRowComp.setText(String.valueOf(spreadEntity.getStartRepeatRow()));
+        startRepeatRowComp.verify();
 
         setEnabledToUseSheet(spreadEntity.isPackageUseSheet());
 
