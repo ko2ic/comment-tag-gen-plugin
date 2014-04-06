@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.tag.CommentTag.TagType;
+import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.tag.enums.TagType;
 
 @AllArgsConstructor
 public class CodeLine {

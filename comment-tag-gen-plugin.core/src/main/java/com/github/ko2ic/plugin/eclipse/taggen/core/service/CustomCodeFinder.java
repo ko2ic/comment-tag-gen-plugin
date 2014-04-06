@@ -69,7 +69,7 @@ public class CustomCodeFinder {
         }
         try {
             Class<?> clazz = loader.loadClass(fullyQualifiedName);
-            Constructor<?> cons = clazz.getDeclaredConstructor(new Class[] {String.class, Boolean.class, String.class, String.class });
+            Constructor<?> cons = clazz.getDeclaredConstructor(new Class[] {String.class, boolean.class, String.class, String.class });
             return (GeneratingCodeSeedBase) cons.newInstance(new Object[] {basePackage, whetherPackageNameUsesSheet, columnCellIndex, rowCellIndex });
 
         } catch (Exception e) {

@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>comment-tag-gen-plugin</artifactId>
 		<groupId>com.github.ko2ic</groupId>
-		<version>1.0.2</version>
+		<version>1.1.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
   <artifactId>comment-tag-gen-plugin.test</artifactId>
