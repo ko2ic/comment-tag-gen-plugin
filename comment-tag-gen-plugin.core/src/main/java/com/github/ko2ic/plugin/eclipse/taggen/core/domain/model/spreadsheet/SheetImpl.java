@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.spreadsheet.Sheet;
+import com.github.ko2ic.plugin.eclipse.taggen.common.exceptions.InvalidCellIndexException;
 
 /**
  * Presents a Sheet.
@@ -46,13 +47,17 @@ public class SheetImpl implements Sheet {
     /**
      * set index of row that begin repeating.
      * @param startIndex specifies non-empty row
+     * @throws InvalidCellIndexException
      */
     @Override
-    public void setStartRowIndex(int startIndex) {
+    public void setStartRowIndex(int startIndex) throws InvalidCellIndexException {
         for (int i = 0; i < startIndex; i++) {
             if (iterator.hasNext()) {
                 iterator.next();
             }
+        }
+        if (!iterator.hasNext()) {
+            throw new InvalidCellIndexException(null, startIndex);
         }
     }
 
@@ -96,13 +101,17 @@ public class SheetImpl implements Sheet {
 
     /**
      * Get the value of the cell as a string.<br/>
-     * @param rowIndex a row of a spreadsheet
      * @param columnIndex 0-based column number
+     * @param rowIndex a row of a spreadsheet
      * @return value of the cell as a string
+     * @throws InvalidCellIndexException
      */
     @Override
-    public String getStringCellValue(int rowIndex, int columnIndex) {
-        Cell cell = getCell(rowIndex, columnIndex);
+    public String getStringCellValue(int columnIndex, int rowIndex) throws InvalidCellIndexException {
+        Cell cell = getCell(columnIndex, rowIndex);
+        if (cell == null) {
+            throw new InvalidCellIndexException(columnIndex, null);
+        }
         return getStringCellValue(cell);
     }
 
@@ -110,10 +119,14 @@ public class SheetImpl implements Sheet {
      * Get the value of the cell as a string in current row.<br/>
      * @param columnIndex 0-based column number
      * @return a cell value
+     * @throws InvalidCellIndexException
      */
     @Override
-    public String getStringCellValue(int columnIndex) {
+    public String getStringCellValue(int columnIndex) throws InvalidCellIndexException {
         Cell cell = getCurrentRow().getCell(columnIndex);
+        if (cell == null) {
+            throw new InvalidCellIndexException(columnIndex, null);
+        }
         return getStringCellValue(cell);
     }
 
@@ -133,8 +146,11 @@ public class SheetImpl implements Sheet {
         return result;
     }
 
-    private Cell getCell(int rowIndex, int columnIndex) {
+    private Cell getCell(int columnIndex, int rowIndex) throws InvalidCellIndexException {
         Row row = sheet.getRow(rowIndex);
+        if (row == null) {
+            throw new InvalidCellIndexException(columnIndex, rowIndex);
+        }
         Cell cell = row.getCell(columnIndex);
         return cell;
     }

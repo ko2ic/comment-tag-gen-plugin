@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.github.ko2ic.plugin.eclipse.taggen.core.exceptions;
 
+import com.github.ko2ic.plugin.eclipse.taggen.common.exceptions.AppException;
+
 //@RequiredArgsConstructor
 public class AppFileNotFoundException extends AppException {
 

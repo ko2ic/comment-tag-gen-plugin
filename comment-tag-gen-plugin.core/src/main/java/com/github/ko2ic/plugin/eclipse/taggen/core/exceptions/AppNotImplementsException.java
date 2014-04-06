@@ -12,6 +12,8 @@ package com.github.ko2ic.plugin.eclipse.taggen.core.exceptions;
 
 import lombok.RequiredArgsConstructor;
 
+import com.github.ko2ic.plugin.eclipse.taggen.common.exceptions.AppException;
+
 @RequiredArgsConstructor
 public class AppNotImplementsException extends AppException {
 

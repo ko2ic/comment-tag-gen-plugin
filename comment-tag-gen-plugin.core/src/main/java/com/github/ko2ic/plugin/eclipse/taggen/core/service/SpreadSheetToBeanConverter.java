@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.element.ClassElements;
 import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.element.GeneratingCodeSeedBase;
 import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.spreadsheet.Sheet;
+import com.github.ko2ic.plugin.eclipse.taggen.common.exceptions.InvalidCellIndexException;
 import com.github.ko2ic.plugin.eclipse.taggen.core.domain.model.spreadsheet.Workbook;
 import com.github.ko2ic.plugin.eclipse.taggen.core.exceptions.SystemException;
 import com.google.common.base.Throwables;
@@ -29,7 +30,7 @@ public class SpreadSheetToBeanConverter {
 
     private Map<String, ? extends ClassElements> map;
 
-    public SpreadSheetToBeanConverter(IProgressMonitor monitor, IFile spreadSheetFile, GeneratingCodeSeedBase codeSeed) {
+    public SpreadSheetToBeanConverter(IProgressMonitor monitor, IFile spreadSheetFile, GeneratingCodeSeedBase codeSeed) throws InvalidCellIndexException {
         try {
             Workbook wb = new Workbook(spreadSheetFile.getContents());
 

@@ -14,6 +14,8 @@ import java.lang.reflect.Constructor;
 
 import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.element.GeneratingCodeSeedBase;
 import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.element.sample.EnumCodeSeed;
+import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.element.sample.EnumCodeSeed.EnumCellIndexHolder;
+import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.spreadsheet.Cell;
 import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.tag.ItemsTag;
 import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.tag.RootTag;
 import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.tag.sample.EnumItemsTag;
@@ -52,14 +54,23 @@ public class CustomCodeFinder {
     public GeneratingCodeSeedBase findCodeSeed() throws AppNotImplementsException {
         String basePackage = spreadPreference.getBasePackage();
         boolean whetherPackageNameUsesSheet = spreadPreference.isPackageUseSheet();
+        String columnCellIndex = spreadPreference.getPackageColumnCell();
+        String rowCellIndex = spreadPreference.getPackageRowCell();
+
         String fullyQualifiedName = codePreference.getCodeSeedImplements();
         if (Strings.isNullOrEmpty(fullyQualifiedName)) {
-            return new EnumCodeSeed(basePackage, whetherPackageNameUsesSheet);
+
+            EnumCodeSeed seed = new EnumCodeSeed(basePackage, whetherPackageNameUsesSheet, columnCellIndex, rowCellIndex);
+            EnumCellIndexHolder holder = new EnumCellIndexHolder(Cell.convertToColumnIndex(spreadPreference.getClassCommentCell()), Cell.convertToColumnIndex(spreadPreference.getClassNameCell()),
+                    Cell.convertToColumnIndex(spreadPreference.getEnumNameCell()), Cell.convertToColumnIndex(spreadPreference.getEnumValueCell()), Cell.convertToColumnIndex(spreadPreference
+                            .getEnumCommentCell()), spreadPreference.getStartRepeatRow());
+            seed.setCellIndexInfo(holder);
+            return seed;
         }
         try {
             Class<?> clazz = loader.loadClass(fullyQualifiedName);
-            Constructor<?> cons = clazz.getDeclaredConstructor(new Class[] {Boolean.class });
-            return (GeneratingCodeSeedBase) cons.newInstance(new Object[] {whetherPackageNameUsesSheet });
+            Constructor<?> cons = clazz.getDeclaredConstructor(new Class[] {String.class, Boolean.class, String.class, String.class });
+            return (GeneratingCodeSeedBase) cons.newInstance(new Object[] {basePackage, whetherPackageNameUsesSheet, columnCellIndex, rowCellIndex });
 
         } catch (Exception e) {
             throw new AppNotImplementsException(fullyQualifiedName, GeneratingCodeSeedBase.class.getName());

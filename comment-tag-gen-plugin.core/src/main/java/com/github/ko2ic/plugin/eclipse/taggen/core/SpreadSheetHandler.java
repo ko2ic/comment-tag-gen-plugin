@@ -36,10 +36,10 @@ import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.element.ClassE
 import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.element.GeneratingCodeSeedBase;
 import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.tag.ItemsTag;
 import com.github.ko2ic.plugin.eclipse.taggen.common.domain.model.tag.RootTag;
+import com.github.ko2ic.plugin.eclipse.taggen.common.exceptions.AppException;
 import com.github.ko2ic.plugin.eclipse.taggen.common.service.parse.TagHandlerBase;
 import com.github.ko2ic.plugin.eclipse.taggen.core.domain.valueobject.SelectObject;
 import com.github.ko2ic.plugin.eclipse.taggen.core.domain.valueobject.TemplateCode;
-import com.github.ko2ic.plugin.eclipse.taggen.core.exceptions.AppException;
 import com.github.ko2ic.plugin.eclipse.taggen.core.exceptions.AppFileNotFoundException;
 import com.github.ko2ic.plugin.eclipse.taggen.core.persistense.PreferenceDao;
 import com.github.ko2ic.plugin.eclipse.taggen.core.service.CustomCodeFinder;
@@ -119,8 +119,8 @@ public class SpreadSheetHandler extends AbstractHandler {
                     return Status.CANCEL_STATUS;
                 } catch (Exception e) {
                     String str = e.getMessage() != null ? e.getMessage() + System.getProperty("line.separator") : "";
-
                     IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, str);
+                    log.log(status);
                     AsyncMessageDialog.openError(shell, "Important Error", "UnExpected Error", status);
 
                 } finally {

@@ -136,7 +136,7 @@ public class PreferenceDao {
         store.setDefault(SPREADSHEET_ENUM_COMMENT_KEY, "F");
         store.setDefault(SPREADSHEET_ENUM_NAME_KEY, "D");
         store.setDefault(SPREADSHEET_ENUM_VALUE_KEY, "E");
-        store.setDefault(SPREADSHEET_START_REPEAT_ROW_KEY, "2");
+        store.setDefault(SPREADSHEET_START_REPEAT_ROW_KEY, "3");
     }
 
     public String getDefaultOutputFolder() {
