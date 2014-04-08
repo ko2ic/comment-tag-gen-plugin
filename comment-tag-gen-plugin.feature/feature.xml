@@ -2,7 +2,7 @@
 <feature
       id="comment-tag-gen-plugin.feature"
       label="// Tag Gen Feature"
-      version="1.1.0">
+      version="1.1.1">
 
    <description url="https://github.com/ko2ic/comment-tag-gen-plugin/wiki">
       Code Generator.
@@ -105,7 +105,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="comment-tag-gen-plugin.core"
          download-size="10749"
          install-size="10747"
-         version="1.1.0"
+         version="1.1.1"
          unpack="false"/>
 
 </feature>

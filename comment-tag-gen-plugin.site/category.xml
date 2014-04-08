@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/comment-tag-gen-plugin.feature_1.1.0.jar" id="comment-tag-gen-plugin.feature" version="1.1.0">
+   <feature url="features/comment-tag-gen-plugin.feature_1.1.1.jar" id="comment-tag-gen-plugin.feature" version="1.1.1">
       <category name="comment-tag-gen"/>
    </feature>
    <category-def name="comment-tag-gen" label="// Tag Gen"/>
