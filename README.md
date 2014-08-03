@@ -78,7 +78,7 @@ comment-tag-gen-plugin
 import -> Maven -> Exsiting Maven Projects    
 comment-tag-gen-common
 
-If compile error occure, you must add the classpath.
+You will need to add classpath of comment-tag-gen-common.jar in "comment-tag-gen-plugin.core" project when comiple error occure.
 
 # License #
 Eclipse Public License - v 1.0
